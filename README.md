@@ -6,5 +6,5 @@ Chart releaser upload (master branch)
 
 Chart releaser index (gh-pages branch)
 
-    /usr/local/bin/cr index -i ./index.yaml --config cr-config.yaml
+    /usr/local/bin/cr index -i ./index.yaml --config cr-config.yaml --charts-repo https://github.com/go1com/helm-charts.git
 
