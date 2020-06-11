@@ -1,6 +1,6 @@
-owner: nikk
+owner: go1com
 git-repo: helm-charts
 package-path: .deploy
-token: <github-token>
+token: <your-github-token>
 git-base-url: https://api.github.com/
 git-upload-url: https://uploads.github.com/
