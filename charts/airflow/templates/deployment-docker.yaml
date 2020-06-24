@@ -44,3 +44,11 @@ spec:
               containerPort: 2375
           securityContext:
             privileged: true
+          {{- if .Values.airflow.docker.extraVolumeMounts }}
+          volumeMounts:
+            {{- include "airflow.tplValue" (dict "value" .Values.airflow.docker.extraVolumeMounts "context" $) | nindent 12 }}
+          {{- end }}
+      {{- if .Values.airflow.docker.extraVolumes }}
+      volumes:
+      {{- include "airflow.tplValue" (dict "value" .Values.airflow.docker.extraVolumes "context" $) | nindent 6 }}
+      {{- end }}
