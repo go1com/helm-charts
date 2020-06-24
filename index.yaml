@@ -3,7 +3,7 @@ entries:
   airflow:
   - apiVersion: v1
     appVersion: 1.10.10
-    created: "2020-06-19T14:02:27.952864+07:00"
+    created: "2020-06-24T15:58:26.978516+07:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -15,7 +15,7 @@ entries:
       version: 10.x.x
     description: Apache Airflow is a platform to programmatically author, schedule
       and monitor workflows.
-    digest: ed2c8c812c6b5278ff53f27b3958c812e8ed8ed36a2d216a6bc7ae054c1c6c32
+    digest: 92ae19883d52f5cdadaaa418565462a75c565761ed36f03b8cbf087b4c41b7e3
     home: https://airflow.apache.org/
     icon: https://bitnami.com/assets/stacks/airflow/img/airflow-stack-110x117.png
     keywords:
@@ -30,6 +30,6 @@ entries:
     sources:
     - https://github.com/bitnami/bitnami-docker-airflow
     urls:
-    - https://github.com/go1com/helm-charts/releases/download/airflow-1.1.1/airflow-1.1.1.tgz
-    version: 1.1.1
-generated: "2020-06-19T14:02:26.988378+07:00"
+    - https://github.com/go1com/helm-charts/releases/download/airflow-1.1.2/airflow-1.1.2.tgz
+    version: 1.1.2
+generated: "2020-06-24T15:58:24.695619+07:00"
