@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "airflow.fullname" . }}-pgbouncer
+  labels:
+    app.kubernetes.io/name: {{ include "airflow.name" . }}
+    helm.sh/chart: {{ include "airflow.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: tcp-pgbouncer
+      port: 5432
+      targetPort: tcp-pgbouncer
+  selector:
+    app.kubernetes.io/name: {{ include "airflow.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: pgbouncer

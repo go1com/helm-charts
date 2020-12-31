@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "airflow.fullname" . }}-pgbouncer
+  labels:
+    app.kubernetes.io/name: {{ include "airflow.name" . }}
+    helm.sh/chart: {{ include "airflow.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: pgbouncer
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "airflow.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: pgbouncer
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "airflow.name" . }}
+        helm.sh/chart: {{ include "airflow.chart" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/component: pgbouncer
+    spec:
+      {{- if .Values.nodeSelector }}
+      nodeSelector: {{- toYaml .Values.nodeSelector | nindent 8 }}
+      {{- end }}
+      {{- if .Values.affinity }}
+      affinity: {{- toYaml .Values.affinity | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+      {{ toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: pgbouncer
+          image: mcr.microsoft.com/azure-oss-db-tools/pgbouncer-sidecar:pgbouncerv1.13
+          ports:
+            - name: tcp-pgbouncer
+              containerPort: 5432
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ['all']
+          livenessProbe:
+            tcpSocket:
+              port: 5432
+            periodSeconds: 60
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "killall -INT pgbouncer && sleep 120"]
+          {{- if .Values.airflow.pgbouncer.extraVolumeMounts }}
+          volumeMounts:
+            {{- include "airflow.tplValue" (dict "value" .Values.airflow.pgbouncer.extraVolumeMounts "context" $) | nindent 12 }}
+          {{- end }}
+          {{- if .Values.airflow.pgbouncer.resources }}
+          resources: {{- toYaml .Values.airflow.pgbouncer.resources | nindent 12 }}
+          {{- end }}
+      {{- if .Values.airflow.pgbouncer.extraVolumes }}
+      volumes:
+      {{- include "airflow.tplValue" (dict "value" .Values.airflow.pgbouncer.extraVolumes "context" $) | nindent 6 }}
+      {{- end }}
