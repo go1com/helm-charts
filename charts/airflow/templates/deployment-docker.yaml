@@ -48,6 +48,9 @@ spec:
           volumeMounts:
             {{- include "airflow.tplValue" (dict "value" .Values.airflow.docker.extraVolumeMounts "context" $) | nindent 12 }}
           {{- end }}
+          {{- if .Values.airflow.docker.resources }}
+          resources: {{- toYaml .Values.airflow.docker.resources | nindent 12 }}
+          {{- end }}
       {{- if .Values.airflow.docker.extraVolumes }}
       volumes:
       {{- include "airflow.tplValue" (dict "value" .Values.airflow.docker.extraVolumes "context" $) | nindent 6 }}
