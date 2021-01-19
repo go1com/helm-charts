@@ -277,6 +277,9 @@ spec:
             - secretRef:
                 name: {{ .Values.airflow.extraEnvVarsSecret }}
             {{- end }}
+            {{- if .Values.airflow.extraEnvVarsSecrets }}
+              {{ toYaml .Values.airflow.extraEnvVarsSecrets | nindent 12 }}
+            {{- end }}
             {{- if .Values.airflow.web.extraEnvVarsCM }}
             - configMapRef:
                 name: {{ .Values.airflow.web.extraEnvVarsCM }}
